@@ -1,26 +1,31 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useTransaction } from '@/store/transaction';
+import baseTable from '@/components/tableComponents/baseTable.vue';
+import { useBaseTable } from '@/composibles/useBaseTable';
+import  pagination  from '@/components/tableComponents/pagination.vue'
+import  filterByDateRange  from '@/components/tableComponents/filterByDateRange.vue'
+import  filterByType  from '@/components/tableComponents/filterByType.vue'
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+const transactionStore = useTransaction()
+let useTable;
+const showTable = ref(false)
+onMounted(async ()=>{
+  await transactionStore.getTransactions()
+  useTable = useBaseTable(transactionStore.transactions, 'transactions')
+  showTable.value = true
+})
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<template>
+  <div v-if="showTable" >
+    <div style="margin-bottom: 20px;">
+      <filterByType  :dataComposible="useTable" />
+      <filterByDateRange :dataComposible="useTable" />
+    </div>
+    <baseTable :dataComposible="useTable" />
+    <pagination :dataComposible="useTable" />
+  </div>
+</template>
