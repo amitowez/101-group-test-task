@@ -1,40 +1,80 @@
-import { ElNotification } from 'element-plus';
+import { ElNotification } from 'element-plus'
 const notifyLibrary = {
     getAll: {
-        transaction: {
-            success: 'Транзакции загружены',
-            error: 'Ошибка при загрузке транзакций',
-        },
+      transactions: {
+        success: 'Транзакции загружены',
+        error: 'Ошибка при загрузке транзакций',
+      },
+      orders: {
+        success: 'Заказы загружены',
+        error: 'Ошибка при загрузке заказов',
+      },
+      users: {
+        success: 'Пользователи загружены',
+        error: 'Ошибка при загрузке пользователей',
+      },
     },
     get: {
-        transaction: {
-            success: 'Транзакция загружена',
-            error: 'Ошибка при загрузке транзакции',
-        },
+      transactions: {
+        success: 'Транзакция загружена',
+        error: 'Ошибка при загрузке транзакции',
+      },
+      orders: {
+        success: 'Заказ загружен',
+        error: 'Ошибка при загрузке заказа',
+      },
+      users: {
+        success: 'Пользователь загружен',
+        error: 'Ошибка при загрузке пользователя',
+      },
     },
     post: {
-        transaction: {
-            success: 'Транзакция создана',
-            error: 'Ошибка при создании транзакции',
-        },
+      transactions: {
+        success: 'Транзакция создана',
+        error: 'Ошибка при создании транзакции',
+      },
+      orders: {
+        success: 'Заказ создан',
+        error: 'Ошибка при создании заказа',
+      },
+      users: {
+        success: 'Пользователь создан',
+        error: 'Ошибка при создании пользователя',
+      },
     },
     put: {
-        transaction: {
-            success: 'Изменения транзакции сохранены',
-            error: 'Ошибка при изменении транзакции',
-        },
+      transactions: {
+        success: 'Изменения транзакции сохранены',
+        error: 'Ошибка при изменении транзакции',
+      },
+      orders: {
+        success: 'Изменения заказа сохранены',
+        error: 'Ошибка при изменении заказа',
+      },
+      users: {
+        success: 'Изменения пользователя сохранены',
+        error: 'Ошибка при изменении пользователя',
+      },
     },
     delete: {
-        transaction: {
-            success: 'Транзакция удалена успешно',
-            error: 'Ошибка при удалении транзакции',
-        },
+      transactions: {
+        success: 'Транзакция удалена успешно',
+        error: 'Ошибка при удалении транзакции',
+      },
+      orders: {
+        success: 'Заказ удалён успешно',
+        error: 'Ошибка при удалении заказа',
+      },
+      users: {
+        success: 'Пользователь удалён успешно',
+        error: 'Ошибка при удалении пользователя',
+      },
     },
 }
 
 export function setNotifyStatus(notify, name, method, status){
-    const type = status ? 'success' : 'error';
-    const title = status ? 'Успешно' : 'Неудачно';
+    const type = status ? 'success' : 'error'
+    const title = status ? 'Успешно' : 'Неудачно'
     const message = notifyLibrary[method][name][type]
     notify.close();
     ElNotification({

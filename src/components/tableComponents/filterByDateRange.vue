@@ -1,6 +1,6 @@
 <script setup>
-import { defineProps } from 'vue';
-import { ElDatePicker } from 'element-plus';
+import { defineProps } from 'vue'
+import { ElDatePicker } from 'element-plus'
 
 const props = defineProps({
   dataComposible: {
@@ -12,7 +12,7 @@ const props = defineProps({
 
 <template>
     <el-date-picker
-      v-model="props.dataComposible.dateRange"
+      v-model="props.dataComposible.dateRange.value"
       type="daterange"
       range-separator="-"
       start-placeholder="Дата начала"

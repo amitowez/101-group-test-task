@@ -1,15 +1,16 @@
 import {computed, ref} from 'vue'
+import {selectOptions} from '@/constants/tablesData'
 
 export const useBaseTable = (data, tableName) => {
-    const filterType = ref(''); 
-    const dateRange = ref([]);
-    const currentPage = ref(1); 
+    const filterType = ref('')
+    const dateRange = ref([])
+    const currentPage = ref(1)
     const pageSize = 10;
-
+    const optionType = selectOptions[tableName].type
     const filteredData = computed(() => {
         let result = [...data];
         if (filterType.value) {
-          result = result.filter((item) => item.type === filterType.value);
+          result = result.filter((item) => item[optionType] === filterType.value);
         }
         if (dateRange.value && dateRange.value.length === 2) {
           const [start, end] = dateRange.value;
@@ -19,13 +20,13 @@ export const useBaseTable = (data, tableName) => {
           });
         }
         return result;
-    });
+    })
 
     const paginatedData = computed(() => {
         const start = (currentPage.value - 1) * pageSize;
         const end = start + pageSize;
         return filteredData.value.slice(start, end);
-    });
+    })
     
     const handleSortChange = ({ prop, order }) => {
         data.sort((a, b) => {
@@ -39,13 +40,14 @@ export const useBaseTable = (data, tableName) => {
           }
           return 0;
         });
-    };
+    }
     
     const handlePageChange = (page) => {
       currentPage.value = page;
-    };
+    }
 
     return {
+        dateRange,
         filterType,
         filteredData,
         paginatedData,

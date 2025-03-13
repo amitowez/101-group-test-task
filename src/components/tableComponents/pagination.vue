@@ -1,6 +1,6 @@
 <script setup>
-import { ElPagination } from 'element-plus';
-import { defineProps } from 'vue';
+import { ElPagination } from 'element-plus'
+import { defineProps } from 'vue'
 
 const props = defineProps({
   dataComposible: {

@@ -1,14 +1,12 @@
 <script setup>
-import {ElTableColumn } from 'element-plus'
-import {defineProps} from 'vue';
+import { ElTableColumn } from 'element-plus'
+import {defineProps} from 'vue'
 
 const props = defineProps({
     item: {
         type: Object  
     }
 })
-
-console.log()
 
 </script>
 
