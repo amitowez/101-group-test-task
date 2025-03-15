@@ -1,12 +1,35 @@
-import {computed, ref} from 'vue'
+import {computed, reactive, ref, watch} from 'vue'
 import {selectOptions} from '@/constants/tablesData'
+import { capitalize } from '@/helpers/functions'
+import { useRoute } from 'vue-router'
+import { createEntityStore } from '@/store/entityStore'
 
-export const useBaseTable = (data, tableName) => {
+export const useBaseTable = () => {
+
+    const route = useRoute();
+    const tableName = route.params.entityType
+    const store = createEntityStore(tableName)()
+    let data = reactive([]);
     const filterType = ref('')
     const dateRange = ref([])
     const currentPage = ref(1)
     const pageSize = 10;
     const optionType = selectOptions[tableName].type
+    const options = selectOptions[tableName].options
+    const isOpenModal = ref(false)
+    const modalTitle = ref('')
+    let modalPreData = {}
+    const showTable = ref(false)
+
+    async function initTable() {
+      showTable.value = false
+      await store[`get${capitalize(tableName)}`]()
+      data.length = 0
+      data.push(...store[tableName])
+      showTable.value = true
+      return
+    }
+
     const filteredData = computed(() => {
         let result = [...data];
         if (filterType.value) {
@@ -46,15 +69,61 @@ export const useBaseTable = (data, tableName) => {
       currentPage.value = page;
     }
 
+    watch(isOpenModal.value, (val)=>{
+      if(!val){
+        modalTitle.value = ''
+        modalPreData = {}
+      } 
+    })
+
+    const openCreateUpdateModal = (obj) => {
+      isOpenModal.value = true
+      if(obj){
+        modalPreData =  Object.assign(modalPreData, obj)
+        modalTitle.value = 'Изменить'
+      } else {
+        modalTitle.value = 'Создать'
+      }
+    }
+
+    const createOrUpdate = async (obj) => {
+      if(obj.id){
+        await store[`update${capitalize(tableName)}`](obj)
+      } else {
+        obj.id = data[data.length-1].id + 1
+        await store[`create${capitalize(tableName)}`](obj)
+      }
+      await initTable()
+      isOpenModal.value = false
+    }
+
+    const deleteData = async (id) => {
+      await store[`delete${capitalize(tableName)}`](id)
+      await initTable()
+      isOpenModal.value = false
+
+    }
+
+
     return {
+        showTable,
+        modalPreData,
+        options,
+        isOpenModal,
+        modalTitle,
         dateRange,
         filterType,
         filteredData,
         paginatedData,
         handleSortChange,
         handlePageChange,
+        openCreateUpdateModal,
+        deleteData,
+        createOrUpdate,
+        initTable,
         tableName,
         currentPage,
-        pageSize
+        pageSize,
+        data
     }
 }

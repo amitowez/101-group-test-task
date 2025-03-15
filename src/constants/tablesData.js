@@ -8,6 +8,8 @@ export const tablesTemplate = {
             template: false,
           },
           {
+            fieldType: 'date',
+            require: true,
             prop: "date",
             label: "Дата",
             proportion: "19", 
@@ -15,6 +17,8 @@ export const tablesTemplate = {
             template: false,
           },
           {
+            fieldType: 'select',
+            require: true,
             prop: "type",
             label: "Тип",
             proportion: "15", 
@@ -23,6 +27,8 @@ export const tablesTemplate = {
             templateData: (row) => (row.type === "income" ? "Доход" : "Расход"),
           },
           {
+            fieldType: 'number',
+            require: true,
             prop: "amount",
             label: "Сумма",
             proportion: "19", 
@@ -30,6 +36,8 @@ export const tablesTemplate = {
             template: false,
           },
           {
+            fieldType: 'string',
+            require: false,
             prop: "description",
             label: "Описание",
             proportion: "37", 
@@ -46,6 +54,8 @@ export const tablesTemplate = {
           template: false,
         },
         {
+          fieldType: 'string',
+          require: true,
           prop: 'name',
           label: 'Имя',
           proportion: '25',
@@ -53,6 +63,8 @@ export const tablesTemplate = {
           template: false,
         },
         {
+          fieldType: 'string',
+          require: true,
           prop: 'email',
           label: 'Email',
           proportion: '35',
@@ -60,6 +72,8 @@ export const tablesTemplate = {
           template: false,
         },
         {
+          fieldType: 'select',
+          require: true,
           prop: 'role',
           label: 'Роль',
           proportion: '25', 
@@ -77,6 +91,8 @@ export const tablesTemplate = {
           template: false,
         },
         {
+          fieldType: 'date',
+          require: true,
           prop: 'date',
           label: 'Дата',
           proportion: '20', 
@@ -84,6 +100,8 @@ export const tablesTemplate = {
           template: false,
         },
         {
+          fieldType: 'string',
+          require: true,
           prop: 'customer',
           label: 'Клиент',
           proportion: '25', 
@@ -91,6 +109,8 @@ export const tablesTemplate = {
           template: false,
         },
         {
+          fieldType: 'select',
+          require: true,
           prop: 'status',
           label: 'Статус',
           proportion: '15', 
@@ -105,6 +125,8 @@ export const tablesTemplate = {
           },
         },
         {
+          fieldType: 'number',
+          require: true,
           prop: 'total',
           label: 'Сумма',
           proportion: '20',
@@ -112,6 +134,8 @@ export const tablesTemplate = {
           template: false,
         },
         {
+          fieldType: 'number',
+          require: true,
           prop: 'items',
           label: 'Кол-во товаров',
           proportion: '10', 

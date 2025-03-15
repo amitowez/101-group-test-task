@@ -1,37 +1,49 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { createEntityStore } from '@/store/entityStore'
 import baseTable from '@/components/tableComponents/baseTable.vue'
 import { useBaseTable } from '@/composibles/useBaseTable'
 import  pagination  from '@/components/tableComponents/pagination.vue'
 import  filterByDateRange  from '@/components/tableComponents/filterByDateRange.vue'
 import  filterByType  from '@/components/tableComponents/filterByType.vue'
-import { useRoute } from 'vue-router'
-import {capitalize} from '@/helpers/functions'
+import baseButton from '@/components/baseButton.vue'
+import baseModalContainer from '@/components/baseModalContainer.vue'
+import formCreateEdit from '@/components/formComponents/formCreateEdit.vue'
+import { tablesTemplate } from '@/constants/tablesData'
+import { onMounted } from 'vue'
 
-const route = useRoute();
-const entityType = route.params.entityType
-const store = createEntityStore(entityType)()
-let useTable;
-const showTable = ref(false)
+let useTable = useBaseTable()
 
-onMounted(async () => {
-  const fetchMethod = `get${capitalize(entityType)}`
-  await store[fetchMethod]()
-  useTable = useBaseTable(store[entityType], entityType)
-  showTable.value = true
-});
 
+onMounted(async ()=>{
+  await useTable.initTable()
+})
 
 </script>
 
 <template>
-  <div v-if="showTable" >
+  <div v-if="useTable.showTable.value" >
     <div style="margin-bottom: 20px;">
       <filterByType  :dataComposible="useTable" />
       <filterByDateRange :dataComposible="useTable" />
+      <baseButton
+        style="margin-left: 20px;"
+        :text="'Добавить'"
+        @action="useTable.openCreateUpdateModal()" />
     </div>
-    <baseTable :dataComposible="useTable" />
+    <baseTable  :dataComposible="useTable" />
     <pagination :dataComposible="useTable" />
+    <Teleport 
+      v-if="useTable.isOpenModal.value" 
+      to="body">
+      <baseModalContainer
+        v-model="useTable.isOpenModal.value"
+        :title="useTable.modalTitle.value">
+        <formCreateEdit 
+          :options="useTable.options"
+          :fields="tablesTemplate[useTable.tableName]" 
+          :initialData="useTable.modalPreData" 
+          @submit="useTable.createOrUpdate"  />
+      </baseModalContainer>
+    </Teleport>
   </div>
+
 </template>

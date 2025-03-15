@@ -20,19 +20,26 @@ export const createEntityStore = (entityType) => {
     }),
     actions: {
       async [`get${capitalize(entityType)}`]() {
+        this[entityType] = []
         this[entityType] = reactive(await this.REQUESTS.GET('getAll'))
+        return 
       },
+
       async [`get${capitalize(entityType)}ById`](id) {
         return await this.REQUESTS.GET('get', id)
       },
-      [`create${capitalize(entityType)}`](data) {
-        this.REQUESTS.POST('post', data)
+
+      async  [`create${capitalize(entityType)}`](data) {
+        
+        return this.REQUESTS.POST('post', data)
       },
-      [`update${capitalize(entityType)}`](data) {
-        this.REQUESTS.PUT('put', data)
+
+      async  [`update${capitalize(entityType)}`](data) {
+        return  this.REQUESTS.PUT('put', data)
       },
-      [`delete${capitalize(entityType)}`](id) {
-        this.REQUESTS.DELETE('delete', id)
+
+      async  [`delete${capitalize(entityType)}`](id) {
+        return  this.REQUESTS.DELETE('delete', id)
       },
     },
   });

@@ -21,15 +21,15 @@ export class requests {
     }
 
     async POST(method, data){
-
+        return this.request(axios.post(this.url, data), method)
     }
 
     async PUT(method, data){
-
+        return this.request(axios.put(this.url+`/${data.id}`, data), method)
     }
 
     async DELETE(method, id){
-
+        return this.request(axios.delete(this.url+`/${id}`), method)
     }
     
     async request(callback, method){
